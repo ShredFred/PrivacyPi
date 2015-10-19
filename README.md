@@ -1,5 +1,5 @@
 # PrivacyPi
-Tutorial for turning a Raspberry Pi into an Internet data retention privacy solution using Raspbian, OpenVPN, Privoxy, and Dante.
+A tutorial for creating an Internet data retention privacy solution using Raspberry Pi running Raspian, OpenVPN, Privoxy, and Dante.
 
 Inspired by Gavin's work at http://www.privacypi.org/ I've created this project to   
 
