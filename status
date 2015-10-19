@@ -1,4 +1,5 @@
 #!/bin/sh
+ifconfig tun0
 service openvpn status
 service privoxy status
 service danted status
