@@ -34,9 +34,9 @@
         <h1>
 <a id="privacypi" class="anchor" href="#privacypi" aria-hidden="true"><span class="octicon octicon-link"></span></a>PrivacyPi</h1>
 
-<p>A tutorial for creating an Internet data retention privacy solution using Raspberry Pi running Raspian, OpenVPN, Privoxy, and Dante.</p>
+<p>Inspired by Gavin's work at <a href="http://www.privacypi.org/">http://www.privacypi.org/</a> I've created this tutorial to make it as easy for anyone with basic computer skills to buy an off-the-shelf parts and make a device that increases the cost of government invasion of privacy from tens of dollars to tens of thousands of dollars.</p>
 
-<p>Inspired by Gavin's work at <a href="http://www.privacypi.org/">http://www.privacypi.org/</a> I've created this project to   </p>
+<p>Please submit issues or pull requests at <a href="https://github.com/jonathanhaslett/PrivacyPi">https://github.com/jonathanhaslett/PrivacyPi</a>.</p>
 
 <h2>
 <a id="getting-started-with-the-raspberry-pi-and-raspbian" class="anchor" href="#getting-started-with-the-raspberry-pi-and-raspbian" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting started with the Raspberry Pi and Raspbian</h2>
@@ -86,7 +86,24 @@
 <h3>
 <a id="configure-your-local-network" class="anchor" href="#configure-your-local-network" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configure your local network</h3>
 
-<p>It's important that your PrivacyPi always</p>
+<p>It's important that your Pi is always assigned the same IP address by your router (DHCP Server). The good news is that most routers these days make it easy for you to manually reserve an IP address for your device. </p>
+
+<p>Login to your router's management interface and reserver an IP address for your Pi that matches your existing network, usually this will look like <code>192.168.0.x</code> or <code>192.168.1.x</code>. Refer to your routers documentation for specific instructions but usually you'll need to find the table showing all the connected devices (DHCP Table) and choosing a device to reserve an address for. You'll recall we renamed the Pi to <code>PrivacyPi</code> so it should be easy to identify from the table.</p>
+
+<p>For the rest of the tutorial we're going to assume you've assigned the IP address <code>192.168.1.251</code> to your Pi which has the hostname <code>PirvacyPi</code>.</p>
+
+<p>Restart your Pi. It should load to the command line interface <em>(CLI)</em>. </p>
+
+<p>Once at the CLI you can confirm that you've been assigned the correct IP address by typing the command:</p>
+
+<pre><code>ifconfig -a
+</code></pre>
+
+<p>Hopefully you should see an output that looks like:</p>
+
+<pre><code>eth0 sdjfkjsakdjfhkjsadhfkjhajksdhf'
+sdfgfdgsdfg
+</code></pre>
 
 <h2>
 <a id="openvpn---vpn-client" class="anchor" href="#openvpn---vpn-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>OpenVPN - VPN Client</h2>
