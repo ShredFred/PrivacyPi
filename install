@@ -1,0 +1,4 @@
+#!/bin/sh
+sudo apt-get install openvpn
+sudo apt-get install privoxy
+sudo apt-get install danted

@@ -49,13 +49,15 @@ Once at the CLI you can confirm that you've been assigned the correct IP address
 
 	ifconfig -a
 
-Hopefully you should see an output that looks like:
+Hopefully you should see an output that starts with something like:
 
-	eth0 sdjfkjsakdjfhkjsadhfkjhajksdhf'
-	sdfgfdgsdfg
-	
-
-
+	eth0 Link encap:Ethernet  HWaddr XX:XX:XX:XX:XX:XX  
+    inet addr:192.168.1.251  Bcast:192.168.1.255  Mask:255.255.255.0
+    inet6 addr: fe80::ba27:ebff:fe54:bee5/64 Scope:Link
+    UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+    RX packets:607649 errors:0 dropped:1097 overruns:0 frame:0
+    TX packets:492564 errors:0 dropped:0 overruns:0 carrier:0
+    collisions:0 txqueuelen:1000     
 
 ##OpenVPN - VPN Client
 

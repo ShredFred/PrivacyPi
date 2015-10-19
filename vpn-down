@@ -1,0 +1,3 @@
+#!/bin/sh
+sudo service danted stop
+sudo service privoxy stop

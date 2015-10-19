@@ -1,0 +1,4 @@
+#!/bin/sh
+service openvpn status
+service privoxy status
+service danted status

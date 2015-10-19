@@ -1,0 +1,3 @@
+#!/bin/sh
+sudo service danted start
+sudo service privoxy start
