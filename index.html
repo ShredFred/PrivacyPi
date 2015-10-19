@@ -99,10 +99,15 @@
 <pre><code>ifconfig -a
 </code></pre>
 
-<p>Hopefully you should see an output that looks like:</p>
+<p>Hopefully you should see an output that starts with something like:</p>
 
-<pre><code>eth0 sdjfkjsakdjfhkjsadhfkjhajksdhf'
-sdfgfdgsdfg
+<pre><code>eth0 Link encap:Ethernet  HWaddr XX:XX:XX:XX:XX:XX  
+inet addr:192.168.1.251  Bcast:192.168.1.255  Mask:255.255.255.0
+inet6 addr: fe80::ba27:ebff:fe54:bee5/64 Scope:Link
+UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+RX packets:607649 errors:0 dropped:1097 overruns:0 frame:0
+TX packets:492564 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 txqueuelen:1000     
 </code></pre>
 
 <h2>
@@ -111,11 +116,78 @@ sdfgfdgsdfg
 <h2>
 <a id="privoxy---httphttps-proxy" class="anchor" href="#privoxy---httphttps-proxy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Privoxy - HTTP/HTTPS Proxy</h2>
 
+<p><em>Privoxy is a non-caching web proxy with advanced filtering capabilities for enhancing privacy, modifying web page data and HTTP headers, controlling access, and removing ads and other obnoxious Internet junk.</em> - <a href="http://www.privoxy.org/">privoxy.org</a></p>
+
+<p>Only minor changes are required for privoxy.</p>
+
+<p>Open the config file by typing:</p>
+
+<pre><code>sudo pico /etc/privoxy/config
+</code></pre>
+
+<p>Search for the variable named <code>listen-address</code> and change it's value to your Pi's IP address, we're using <code>192.168.1.251</code>.</p>
+
 <h2>
 <a id="dante---socks5-proxy" class="anchor" href="#dante---socks5-proxy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dante - SOCKS5 Proxy</h2>
 
+<p>Now that OpenVPN and Privoxy are configured, let's get Dante sorted, we need to replace the config file so that Dante knows to accept incoming connections on port <code>1080</code> and route traffic through the VPN connection labeled <code>tun0</code>.</p>
+
+<p>You can edit the Dante config file by typing:</p>
+
+<pre><code>sudo pico /etc/danted.conf
+</code></pre>
+
+<p>Here's <a href="http://www.privacypi.org/how-about-a-socks-proxy/">Gavin's</a> example config file, it worked for me as well without needing to make any changes:</p>
+
+<pre><code>logoutput: stderr /var/log/dante.log
+
+internal: eth0 port = 1080
+external: tun0
+
+method: none
+clientmethod: none
+
+user.privileged: proxy
+user.notprivileged: nobody
+user.libwrap: nobody
+
+client pass {
+from: 192.168.0.0/16 port 1-65535 to: 0.0.0.0/0
+log: connect error
+}
+
+client block {
+from: 0.0.0.0/0 to: 0.0.0.0/0
+log: connect error
+}
+
+block {
+from: 0.0.0.0/0 to: 127.0.0.0/8
+log: connect error
+}
+
+pass {
+from: 192.168.0.0/16 to: 0.0.0.0/0
+protocol: tcp udp
+log: connect error
+}
+
+block {
+from: 0.0.0.0/0 to: 0.0.0.0/0
+log: connect error
+}
+</code></pre>
+
 <h2>
-<a id="customise-the-startup-order" class="anchor" href="#customise-the-startup-order" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customise the startup order</h2>
+<a id="some-basic-shell-scripts-to-make-life-easier" class="anchor" href="#some-basic-shell-scripts-to-make-life-easier" aria-hidden="true"><span class="octicon octicon-link"></span></a>Some basic shell scripts to make life easier</h2>
+
+<p>If you extracted all the files to your /home/pi home directory you'll be able to type these commands to control your PrivacyPi:</p>
+
+<p><code>sh ~/start</code> - start OpenVPN, and thanks to your config file changes start Privoxy/Dante once the VPN is connected.</p>
+
+<p><code>sh ~/stop</code> - stop OpenVPN, and thanks to your config file changes stop Privoxy/Dante as well.</p>
+
+<p><code>sh ~/status</code> - output the status for the VPN connection (tun0) and well as the status of the services OpenVPN, Privoxy, and Dante.</p>
 
 <h2>
 <a id="testing" class="anchor" href="#testing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing</h2>
