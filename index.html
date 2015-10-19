@@ -22,7 +22,74 @@
       <h1>
 <a id="privacypi" class="anchor" href="#privacypi" aria-hidden="true"><span class="octicon octicon-link"></span></a>PrivacyPi</h1>
 
-<p>Guide to turning a Raspberry Pi into an Internet data retention privacy solution using Raspian,OpenVPN,Privoxy, and Dante.</p>
+<p>Tutorial for turning a Raspberry Pi into an Internet data retention privacy solution using Raspbian, OpenVPN, Privoxy, and Dante.</p>
+
+<p>Inspired by Gavin's work at <a href="http://www.privacypi.org/">http://www.privacypi.org/</a> I've created this project to   </p>
+
+<h2>
+<a id="getting-started-with-the-raspberry-pi-and-raspbian" class="anchor" href="#getting-started-with-the-raspberry-pi-and-raspbian" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting started with the Raspberry Pi and Raspbian</h2>
+
+<h3>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements:</h3>
+
+<p>A Raspberry Pi kit including:</p>
+
+<ul>
+<li>Raspberry Pi. I used a <a href="https://www.raspberrypi.org/products/raspberry-pi-2-model-b/">Raspberry Pi 2 Model B</a>
+</li>
+<li>8GB MicroSD memory card</li>
+<li>Micro USB cable</li>
+<li>USB charger capable of <a href="https://google.com/">powering the Pi</a>
+</li>
+<li>Ethernet cable</li>
+<li>A housing to keep your Pi safe and secure after installation. I went with <a href="https://google.com/">this</a>.</li>
+</ul>
+
+<p>Along with these extras for getting set up:</p>
+
+<ul>
+<li>Monitor with HDMI input</li>
+<li>HDMI cable</li>
+<li>USB keyboard</li>
+<li>USB mouse</li>
+</ul>
+
+<h3>
+<a id="install-raspbian-using-noobs" class="anchor" href="#install-raspbian-using-noobs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install Raspbian using NOOBS</h3>
+
+<p>NOOBS stands for <strong>New Out Of the Box Software</strong> and is the installer and recovery platform that we'll use to install Raspbian on our Pi.</p>
+
+<p>Follow the <a href="https://www.raspberrypi.org/help/noobs-setup/">NOOBS Setup Guide</a> and you'll end up on the desktop of a fresh installation of Raspbian and ready to continue building your PrivacyPi.</p>
+
+<h3>
+<a id="change-some-settings" class="anchor" href="#change-some-settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Change some settings</h3>
+
+<ul>
+<li>Device Name - Change to PrivacyPi</li>
+<li>Localisation - Set your time, date, and keyboard layout, useful when working with config files later on</li>
+<li>Start in cli - use startx to launch gui</li>
+<li>
+</ul>
+
+<h3>
+<a id="configure-your-local-network" class="anchor" href="#configure-your-local-network" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configure your local network</h3>
+
+<p>It's important that your PrivacyPi always</p>
+
+<h2>
+<a id="openvpn---vpn-client" class="anchor" href="#openvpn---vpn-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>OpenVPN - VPN Client</h2>
+
+<h2>
+<a id="privoxy---httphttps-proxy" class="anchor" href="#privoxy---httphttps-proxy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Privoxy - HTTP/HTTPS Proxy</h2>
+
+<h2>
+<a id="dante---socks5-proxy" class="anchor" href="#dante---socks5-proxy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dante - SOCKS5 Proxy</h2>
+
+<h2>
+<a id="customise-the-startup-order" class="anchor" href="#customise-the-startup-order" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customise the startup order</h2>
+
+<h2>
+<a id="testing" class="anchor" href="#testing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing</h2>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/jonathanhaslett/PrivacyPi">PrivacyPi</a> is maintained by <a href="https://github.com/jonathanhaslett">jonathanhaslett</a>.</span>
