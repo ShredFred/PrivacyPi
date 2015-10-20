@@ -1,5 +1,24 @@
 #!/bin/sh
+
+#run the install commands
 sudo apt-get install openvpn
 sudo apt-get install privoxy
 sudo apt-get install danted
-sh ~/intro
+
+##stop the services
+sudo service openvpn stop
+sudo service danted stop
+sudo service privoxy stop
+
+#change the auto-launc daemon 
+sudo update-rc.d privoxy disable
+sudo update-rc.d danted disable
+
+#replace the danted.conf file found at /etc/danted.conf
+sudo rm /etc/danted.conf
+sudo mv dante.conf.template /etc/danted.conf
+
+
+#
+
+sh intro

@@ -58,6 +58,10 @@ Hopefully you should see an output that starts with something like:
     RX packets:607649 errors:0 dropped:1097 overruns:0 frame:0
     TX packets:492564 errors:0 dropped:0 overruns:0 carrier:0
     collisions:0 txqueuelen:1000     
+    
+##Install PrivacyPi Bundle
+
+https://github.com/jonathanhaslett/PrivacyPi/zipball/master
 
 ##OpenVPN - VPN Client
 
@@ -75,52 +79,13 @@ Search for the variable named ```listen-address``` and change it's value to your
 
 ##Dante - SOCKS5 Proxy
 
-Now that OpenVPN and Privoxy are configured, let's get Dante sorted, we need to replace the config file so that Dante knows to accept incoming connections on port ```1080``` and route traffic through the VPN connection labeled ```tun0```.
+Dante is a [SOCKS proxy](https://en.wikipedia.org/wiki/SOCKS) that we'll use to route non-web traffic through the VPN connection. 
 
-You can edit the Dante config file by typing:
+The ```sh install``` script has done most the heavy lifting here. we've replaced Dante's config file that tells Dante to accept incoming connections on port ```1080``` and route traffic through the VPN connection labeled ```tun0```.
+
+If you want to make further config changes, you can view and edit the Dante config file by typing:
 
 	sudo pico /etc/danted.conf
-
-Here's [Gavin's](http://www.privacypi.org/how-about-a-socks-proxy/) example config file, it worked for me as well without needing to make any changes:
-
-	logoutput: stderr /var/log/dante.log
-
-   	internal: eth0 port = 1080
-    external: tun0
-    
-    method: none
-    clientmethod: none
-    
-    user.privileged: proxy
-    user.notprivileged: nobody
-    user.libwrap: nobody
-    
-    client pass {
-    from: 192.168.0.0/16 port 1-65535 to: 0.0.0.0/0
-    log: connect error
-    }
-    
-    client block {
-    from: 0.0.0.0/0 to: 0.0.0.0/0
-    log: connect error
-    }
-    
-    block {
-    from: 0.0.0.0/0 to: 127.0.0.0/8
-    log: connect error
-    }
-    
-    pass {
-    from: 192.168.0.0/16 to: 0.0.0.0/0
-    protocol: tcp udp
-    log: connect error
-    }
-    
-    block {
-    from: 0.0.0.0/0 to: 0.0.0.0/0
-    log: connect error
-    }
-
 
 ##Some basic shell scripts to make life easier
 
