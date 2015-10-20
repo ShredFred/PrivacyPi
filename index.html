@@ -111,6 +111,11 @@ collisions:0 txqueuelen:1000
 </code></pre>
 
 <h2>
+<a id="install-privacypi-bundle" class="anchor" href="#install-privacypi-bundle" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install PrivacyPi Bundle</h2>
+
+<p><a href="https://github.com/jonathanhaslett/PrivacyPi/zipball/master">https://github.com/jonathanhaslett/PrivacyPi/zipball/master</a></p>
+
+<h2>
 <a id="openvpn---vpn-client" class="anchor" href="#openvpn---vpn-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>OpenVPN - VPN Client</h2>
 
 <h2>
@@ -130,52 +135,13 @@ collisions:0 txqueuelen:1000
 <h2>
 <a id="dante---socks5-proxy" class="anchor" href="#dante---socks5-proxy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dante - SOCKS5 Proxy</h2>
 
-<p>Now that OpenVPN and Privoxy are configured, let's get Dante sorted, we need to replace the config file so that Dante knows to accept incoming connections on port <code>1080</code> and route traffic through the VPN connection labeled <code>tun0</code>.</p>
+<p>Dante is a <a href="https://en.wikipedia.org/wiki/SOCKS">SOCKS proxy</a> that we'll use to route non-web traffic through the VPN connection. </p>
 
-<p>You can edit the Dante config file by typing:</p>
+<p>The <code>sh install</code> script has done most the heavy lifting here. we've replaced Dante's config file that tells Dante to accept incoming connections on port <code>1080</code> and route traffic through the VPN connection labeled <code>tun0</code>.</p>
+
+<p>If you want to make further config changes, you can view and edit the Dante config file by typing:</p>
 
 <pre><code>sudo pico /etc/danted.conf
-</code></pre>
-
-<p>Here's <a href="http://www.privacypi.org/how-about-a-socks-proxy/">Gavin's</a> example config file, it worked for me as well without needing to make any changes:</p>
-
-<pre><code>logoutput: stderr /var/log/dante.log
-
-internal: eth0 port = 1080
-external: tun0
-
-method: none
-clientmethod: none
-
-user.privileged: proxy
-user.notprivileged: nobody
-user.libwrap: nobody
-
-client pass {
-from: 192.168.0.0/16 port 1-65535 to: 0.0.0.0/0
-log: connect error
-}
-
-client block {
-from: 0.0.0.0/0 to: 0.0.0.0/0
-log: connect error
-}
-
-block {
-from: 0.0.0.0/0 to: 127.0.0.0/8
-log: connect error
-}
-
-pass {
-from: 192.168.0.0/16 to: 0.0.0.0/0
-protocol: tcp udp
-log: connect error
-}
-
-block {
-from: 0.0.0.0/0 to: 0.0.0.0/0
-log: connect error
-}
 </code></pre>
 
 <h2>
