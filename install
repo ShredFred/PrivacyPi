@@ -18,7 +18,5 @@ sudo update-rc.d danted disable
 sudo rm /etc/danted.conf
 sudo mv dante.conf.template /etc/danted.conf
 
-
-#
-
+#run the intro script
 sh intro
