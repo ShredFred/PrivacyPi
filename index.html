@@ -82,6 +82,7 @@
 <li>Change your devices name to PrivacyPi</li>
 <li>Update your date, time, and location</li>
 <li>Set your language and keyboard layout</li>
+<li>Set the Pi to automatically login with the <code>pi</code> user on startup</li>
 <li>Set your Pi to start in the command line interface (CLI), this will free up resources when you no longer need the desktop. The command to manually load the desktop whenever you need to is <code>startx</code>
 </li>
 </ul>
@@ -211,6 +212,12 @@ output of status command
 <p>For a SOCKS5 proxy you'll need to enter the Pi's IP Address plus port <code>1080</code>.</p>
 
 <p>After setting up the proxy in your web browser, test that it's working by visiting the website <a href="https://ipleak.net/">https://ipleak.net/</a> to confirm that your network traffic is being routed through the VPN.</p>
+
+<p>If everything is up and running as expected it's time to reboot your Pi and disconnect the keyboard, mouse, and monitor. Wait a few minutes for the system to restart and then test your proxied web browser again.</p>
+
+<p>From now on you'll be able to connect to the Pi over your network using a SSH with the <code>pi</code> username and with the default <code>raspberry</code> password or the password that you've set.</p>
+
+<p>If you run into any problems or have suggestions for improvements, head over the GitHub repository at <a href="https://github.com/jonathanhaslett/PrivacyPi/issues">https://github.com/jonathanhaslett/PrivacyPi/issues</a>.</p>
       </section>
     </div>
 
