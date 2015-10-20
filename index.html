@@ -76,12 +76,17 @@
 <h3>
 <a id="change-some-settings" class="anchor" href="#change-some-settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Change some settings</h3>
 
+<p>Once you're on the Raspbian desktop head over to the settings and update these settings:</p>
+
 <ul>
-<li>Device Name - Change to PrivacyPi</li>
-<li>Localisation - Set your time, date, and keyboard layout, useful when working with config files later on</li>
-<li>Start in cli - use startx to launch gui</li>
-<li>
+<li>Change your devices name to PrivacyPi</li>
+<li>Update your date, time, and location</li>
+<li>Set your language and keyboard layout</li>
+<li>Set your Pi to start in the command line interface (CLI), this will free up resources when you no longer need the desktop. The command to manually load the desktop whenever you need to is <code>startx</code>
+</li>
 </ul>
+
+<p>For some added local security you could go ahead and change the password for the <code>pi</code> user to something other than the default <code>raspberry</code>. This could be helpful if you regularly have people poking around on your local network.</p>
 
 <h3>
 <a id="configure-your-local-network" class="anchor" href="#configure-your-local-network" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configure your local network</h3>
@@ -92,7 +97,7 @@
 
 <p>For the rest of the tutorial we're going to assume you've assigned the IP address <code>192.168.1.251</code> to your Pi which has the hostname <code>PirvacyPi</code>.</p>
 
-<p>Restart your Pi. It should load to the command line interface <em>(CLI)</em>. </p>
+<p>Restart your Pi. It should load to the CLI. </p>
 
 <p>Once at the CLI you can confirm that you've been assigned the correct IP address by typing the command:</p>
 
@@ -107,16 +112,53 @@ inet6 addr: fe80::ba27:ebff:fe54:bee5/64 Scope:Link
 UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
 RX packets:607649 errors:0 dropped:1097 overruns:0 frame:0
 TX packets:492564 errors:0 dropped:0 overruns:0 carrier:0
-collisions:0 txqueuelen:1000     
+collisions:0 txqueuelen:1000    
 </code></pre>
 
 <h2>
 <a id="install-privacypi-bundle" class="anchor" href="#install-privacypi-bundle" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install PrivacyPi Bundle</h2>
 
-<p><a href="https://github.com/jonathanhaslett/PrivacyPi/zipball/master">https://github.com/jonathanhaslett/PrivacyPi/zipball/master</a></p>
+<p>This step could technically be completed using the Pi's CLI but for a lot of users it will be easier to load up the desktop by typing <code>startx</code>.</p>
+
+<ol>
+<li>Open the Pi's web browser and head to <a href="http://privacypi.io/">privacypi.io</a> and ownload the <a href="https://github.com/jonathanhaslett/PrivacyPi/zipball/master">latest PrivacyPie zip archive</a>.</li>
+<li>Extract the files from the zip archive.</li>
+<li>Opens the Pi's file manager program and move all the files you just extracted to your home directory, if you're still using the default "pi" user then you're home directory will be located at <code>/home/pi/</code>.</li>
+<li>Open the Pi's terminal client. It should automatically place you in your home directory, shown as <code>~</code>. If you enter the command <code>ls</code> it should show a listing of the home directory folders along with the files you just moved during the previous step.</li>
+<li>Run the PrivacyPi install script by typing the command <code>sh install</code>. The script will use <code>apt-get</code> to install the software needed and make a few changes so that you're ready to move on to the next steps below.</li>
+</ol>
 
 <h2>
 <a id="openvpn---vpn-client" class="anchor" href="#openvpn---vpn-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>OpenVPN - VPN Client</h2>
+
+<p>Using the Pi's web browser, download the OpenVPN configuration files from your VPN provider's website. The file with either be a single <code>*.conf</code> file or an archive containing multiple files such as a <code>*.conf</code> files and some certificate files.</p>
+
+<p>Edit the main .conf file with the Pi's text editor and add these two lines t the bottom of the file:</p>
+
+<pre><code>script-security 2
+up /home/pi/vpn-up
+down /home/pi/vpn-down
+</code></pre>
+
+<p>These commands will automatically start and stop the proxy servers when the VPN starts or stops. This prevents a problem that Gavin <a href="http://www.privacypi.org/making-things-a-little-more-private/">described</a> where you'll run into problem if a proxy server tries to start using the VPN's <code>tun0</code> network interface before it exists.</p>
+
+<p>The next step is to move the files but you'll need Super User privileges to write to <code>/etc/openvpn/</code> so close the file manager and then launch it from the terminal with SU privileges by typing <code>sudo pcmanfm</code>.</p>
+
+<p>Move all the files provided by your VPN provider to the <code>/etc/openvpn/</code>` directory. When OpenVPN start's it will search this folder for a *.conf file and use those details to connect to your VPN.</p>
+
+<h2>
+<a id="how-to-start-openvpn-automatically-when-the-rpi-starts" class="anchor" href="#how-to-start-openvpn-automatically-when-the-rpi-starts" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to start OpenVPN Automatically When the RPi Starts</h2>
+
+<p>Now that the OpenVPN server is installed, it is time to make it run as a service every time the Pi boots up.</p>
+
+<p>Edit the file <code>/etc/default/openvpn</code> with:</p>
+
+<pre><code>sudo pico /etc/default/openvpn
+</code></pre>
+
+<p>Uncomment the line <code>#AUTOSTART="all"</code> and either leave it as all, or replace it with the name of the specific server <code>*.conf</code> file you'd like to automatically connect.</p>
+
+<p>That's it, OpenVPN should be ready to go unless there's a problem with with your provided config. We'll get around to testing everything in a minute.</p>
 
 <h2>
 <a id="privoxy---httphttps-proxy" class="anchor" href="#privoxy---httphttps-proxy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Privoxy - HTTP/HTTPS Proxy</h2>
@@ -130,7 +172,7 @@ collisions:0 txqueuelen:1000
 <pre><code>sudo pico /etc/privoxy/config
 </code></pre>
 
-<p>Search for the variable named <code>listen-address</code> and change it's value to your Pi's IP address, we're using <code>192.168.1.251</code>.</p>
+<p>Search for the variable named <code>listen-address</code> and change it's value to your Pi's IP address, for example I'm using <code>192.168.1.251</code>.</p>
 
 <h2>
 <a id="dante---socks5-proxy" class="anchor" href="#dante---socks5-proxy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dante - SOCKS5 Proxy</h2>
@@ -139,15 +181,15 @@ collisions:0 txqueuelen:1000
 
 <p>The <code>sh install</code> script has done most the heavy lifting here. we've replaced Dante's config file that tells Dante to accept incoming connections on port <code>1080</code> and route traffic through the VPN connection labeled <code>tun0</code>.</p>
 
-<p>If you want to make further config changes, you can view and edit the Dante config file by typing:</p>
+<p>If, in the future you want to make further config changes, you can view and edit the Dante config file by typing:</p>
 
 <pre><code>sudo pico /etc/danted.conf
 </code></pre>
 
 <h2>
-<a id="some-basic-shell-scripts-to-make-life-easier" class="anchor" href="#some-basic-shell-scripts-to-make-life-easier" aria-hidden="true"><span class="octicon octicon-link"></span></a>Some basic shell scripts to make life easier</h2>
+<a id="testing-your-new-software" class="anchor" href="#testing-your-new-software" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing your new software.</h2>
 
-<p>If you extracted all the files to your /home/pi home directory you'll be able to type these commands to control your PrivacyPi:</p>
+<p>If you extracted all the files to your <code>/home/pi</code> home directory you'll be able to type these commands to control the software we've just installed:</p>
 
 <p><code>sh ~/start</code> - start OpenVPN, and thanks to your config file changes start Privoxy/Dante once the VPN is connected.</p>
 
@@ -155,8 +197,20 @@ collisions:0 txqueuelen:1000
 
 <p><code>sh ~/status</code> - output the status for the VPN connection (tun0) and well as the status of the services OpenVPN, Privoxy, and Dante.</p>
 
-<h2>
-<a id="testing" class="anchor" href="#testing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing</h2>
+<p>When OpenVPN has connected and Privoxy+Dante have successfully started, the <code>sh ~/status</code> command should output something similar to this:</p>
+
+<pre><code>output of status command
+output of status command
+output of status command
+</code></pre>
+
+<p>If it looks like your VPN <code>tun0</code> is connected and Privoxy+Dante are running you should be ready to open up your PC's browser/torrent software and enter the proxy settings.</p>
+
+<p>For a HTTP/HTTPS proxy you'll need to enter the Pi's IP Address plus port <code>8118</code>.</p>
+
+<p>For a SOCKS5 proxy you'll need to enter the Pi's IP Address plus port <code>1080</code>.</p>
+
+<p>After setting up the proxy in your web browser, test that it's working by visiting the website <a href="https://ipleak.net/">https://ipleak.net/</a> to confirm that your network traffic is being routed through the VPN.</p>
       </section>
     </div>
 
