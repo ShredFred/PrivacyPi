@@ -33,6 +33,7 @@ Follow the [NOOBS Setup Guide](https://www.raspberrypi.org/help/noobs-setup/) an
 Once you're on the Raspbian desktop head over to the settings and update these settings:
 
 * Change your devices name to PrivacyPi
+* Change your password to something other than the default ```raspberry```
 * Update your date, time, and location
 * Set your language and keyboard layout
 * Set the Pi to automatically login with the ```pi``` user on startup
@@ -136,9 +137,44 @@ If you extracted all the files to your ```/home/pi``` home directory you'll be a
 
 When OpenVPN has connected and Privoxy+Dante have successfully started, the ```sh ~/status``` command should output something similar to this:
 
-	output of status command
-	output of status command
-	output of status command
+	tun0      Link encap:UNSPEC  HWaddr 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  
+          inet addr:XX.XXX.X.XX  P-t-P:XXX.XXX.X.XX  Mask:255.255.0.0
+          inet6 addr: fdad:bdef:735d:72::101d/112 Scope:Global
+          UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1500  Metric:1
+          RX packets:856098 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:612917 errors:0 dropped:7655 overruns:0 carrier:0
+          collisions:0 txqueuelen:100 
+          RX bytes:1131753021 (1.0 GiB)  TX bytes:42825235 (40.8 MiB)
+
+	openvpn.service - OpenVPN service
+		Loaded: loaded (/lib/systemd/system/openvpn.service; enabled)
+		Active: active (exited) since Mon 2015-10-19 22:39:46 ACST; 1 weeks 0 days ago
+		Process: 5771 ExecStart=/bin/true (code=exited, status=0/SUCCESS)
+		Main PID: 5771 (code=exited, status=0/SUCCESS)
+		CGroup: /system.slice/openvpn.service
+		
+	privoxy.service - Privacy enhancing HTTP Proxy
+  		Loaded: loaded (/lib/systemd/system/privoxy.service; disabled)
+		Active: active (running) since Mon 2015-10-19 22:40:00 ACST; 1 weeks 0 days ago
+		Process: 5724 ExecStopPost=/bin/rm -f $PIDFILE (code=exited, status=0/SUCCESS)
+		Process: 5910 ExecStart=/usr/sbin/privoxy --pidfile $PIDFILE --user $OWNER $CONFIGFILE (code=exited, status=0/SUCCESS)
+		Main PID: 5911 (privoxy)
+		CGroup: /system.slice/privoxy.service
+           └─5911 /usr/sbin/privoxy --pidfile /var/run/privoxy.pid --user pri...
+
+	danted.service - LSB: SOCKS (v4 and v5) proxy daemon (danted)
+		Loaded: loaded (/etc/init.d/danted)
+		Active: active (running) since Mon 2015-10-19 22:39:59 ACST; 1 weeks 0 days ago
+		Process: 5868 ExecStart=/etc/init.d/danted start (code=exited, status=0/SUCCESS)
+		CGroup: /system.slice/danted.service
+           ├─5874 /usr/sbin/danted -D
+           ├─5875 /usr/sbin/danted -D
+           ├─5876 /usr/sbin/danted -D
+           ├─5877 /usr/sbin/danted -D
+           ├─5878 /usr/sbin/danted -D
+           ├─5879 /usr/sbin/danted -D
+           └─5881 /usr/sbin/danted -D
+
 	
 If it looks like your VPN ```tun0``` is connected and Privoxy+Dante are running you should be ready to open up your PC's browser/torrent software and enter the proxy settings.
 
@@ -153,3 +189,8 @@ If everything is up and running as expected it's time to reboot your Pi and disc
 From now on you'll be able to connect to the Pi over your network using a SSH with the ```pi``` username and with the default ```raspberry``` password or the password that you've set.
 
 If you run into any problems or have suggestions for improvements, head over the GitHub repository at https://github.com/jonathanhaslett/PrivacyPi/issues.
+
+##Future Ideas:
+* Install Script Upgrade
+	* Uninstall software/services that aren't needed to free up more system resources
+	* 
