@@ -69,7 +69,7 @@ Hopefully you should see an output that starts with something like:
 
 This step could technically be completed using the Pi's CLI but for a lot of users it will be easier to load up the desktop by typing ```startx```.
 
-1. Open the Pi's web browser and head to [privacypi.io](http://privacypi.io/) and ownload the [latest PrivacyPie zip archive](https://github.com/jonathanhaslett/PrivacyPi/zipball/master).
+1. Open the Pi's web browser and head to [privacypi.io](http://privacypi.io/) and download the [latest PrivacyPi zip archive](https://github.com/jonathanhaslett/PrivacyPi/zipball/master).
 2. Extract the files from the zip archive.
 3. Opens the Pi's file manager program and move all the files you just extracted to your home directory, if you're still using the default "pi" user then you're home directory will be located at ```/home/pi/```.
 4. Open the Pi's terminal client. It should automatically place you in your home directory, shown as ```~```. If you enter the command ```ls``` it should show a listing of the home directory folders along with the files you just moved during the previous step.
