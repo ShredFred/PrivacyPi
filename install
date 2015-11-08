@@ -1,9 +1,13 @@
 #!/bin/sh
 
+#update your software
+apt-get update
+apt-get upgrade
+
 #run the install commands
 sudo apt-get install openvpn
 sudo apt-get install privoxy
-sudo apt-get install danted
+sudo apt-get install dante-server
 
 ##stop the services
 sudo service openvpn stop
