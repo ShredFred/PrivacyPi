@@ -2,7 +2,7 @@ title: PrivacyPi
 description: A tutorial for creating an Internet data retention privacy solution using Raspberry Pi running Raspian, OpenVPN, Privoxy, and Dante.
 google_analytics: UA-69451415-1
 show_downloads: true
-theme: jekyll-theme-time-machine
+theme: jekyll-theme-slate
 
 gems:
   - jekyll-mentions
